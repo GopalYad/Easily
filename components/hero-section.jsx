@@ -2,7 +2,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
-import {useState} from 'react'
+import { useState } from "react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
@@ -12,7 +12,7 @@ import Link from "next/link";
 import { ArrowRight, Menu, Rocket, X } from "lucide-react";
 import { Button } from "./ui/button";
 // import { ModeToggle } from "./ui/toggle";
-
+import { SignInButton,SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 const menuItems = [
   { name: "Features", href: "#" },
   { name: "Solution", href: "#" },
@@ -38,11 +38,10 @@ const teachers = [
 ];
 
 export default function HeroSection() {
-  const [menuState, setMenuState] =useState(false);
+  const [menuState, setMenuState] = useState(false);
 
   return (
     <>
-
       <header>
         <nav
           data-state={menuState && "active"}
@@ -56,7 +55,7 @@ export default function HeroSection() {
                   aria-label="home"
                   className="flex items-center space-x-2"
                 >
-                {`Easily`}
+                  {`Easily`}
                 </Link>
 
                 <button
@@ -84,19 +83,34 @@ export default function HeroSection() {
                     ))}
                   </ul>
                 </div>
-                 {/* <ModeToggle/> */}
-                <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="#">
-                      <span>Login</span>
-                    </Link>
-                  </Button>
-                  <Button asChild size="sm">
-                    <Link href="#">
-                      <span>Sign Up</span>
-                    </Link>
-                  </Button>
-                </div>
+                {/* <ModeToggle/> */}
+             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
+  <SignedOut>
+    {/* Sign In Button */}
+    <SignInButton className='bg-white text-black hover:bg-white outline-4' mode="modal">
+      <Button asChild size="sm">
+        <Link href="#">
+          <span>Sign In</span>
+        </Link>
+      </Button>
+    </SignInButton>
+
+    {/* Sign Up Button */}
+    <SignUpButton mode="modal">
+      <Button asChild size="sm">
+        <Link href="#">
+          <span>Sign Up</span>
+        </Link>
+      </Button>
+    </SignUpButton>
+  </SignedOut>
+
+  {/* Optional: Show UserButton when signed in */}
+  <SignedIn>
+    <UserButton />
+  </SignedIn>
+</div>
+
               </div>
             </div>
           </div>
@@ -130,9 +144,7 @@ export default function HeroSection() {
                   quietly focus on helping you become the kind of person who
                   never stops moving forward{" "}
                 </p>
-                <p className="mx-auto mt-6 max-w-2xl text-wrap sm:hidden">
-                 
-                </p>
+                <p className="mx-auto mt-6 max-w-2xl text-wrap sm:hidden"></p>
 
                 <div className="mt-8">
                   <Button size="lg" asChild>
